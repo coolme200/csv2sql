@@ -66,16 +66,21 @@ if (!params.table) {
   params.table = path.basename(input, extname);
 }
 
-if (type=== 'update' && !params.where) {
-  throw new Error('You must specify the correct `where`!');
+if (type === 'update') {
+  if (!params.where) {
+    throw new Error('You must specify the correct `where`!');
+  }
+  params.where = params.where.split(',');
 }
-params.where = params.where.split(',');
 
 params.charset = params.charset || 'utf8';
 var str = fs.readFileSync(params.input, params.charset);
 var arr = [];
 var columns = [];
 str.split(/[\r\n]/).forEach(function (line, idx) {
+  if (!line.trim()) {
+    return;
+  }
   line = line.split(/[,;]/);
   if (idx === 0) {
     line.forEach(function (col, ci) {
