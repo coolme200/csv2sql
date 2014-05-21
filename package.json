@@ -1,6 +1,6 @@
 {
   "name": "csv2sql",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "csv2sql",
   "keywords": [
     "csv2sql"
@@ -14,6 +14,10 @@
     "type": "git",
     "url": "git@github.com:coolme200/csv2sql.git"
   },
+  "bin": {
+    "csv2sql": "./bin/csv2sql"
+  },
+  "preferGlobal": true,
   "dependencies": {
     "debug": "0.8.0",
     "system": "0.1.0"
@@ -29,5 +33,6 @@
     "test": "make test"
   },
   "main": "index.js",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "license": "MIT"
 }
