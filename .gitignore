@@ -1,0 +1,9 @@
+node_modules/
+tmp/
+logs/
+cov/
+coverage.html
+.DS_store
+*.csv
+*.sql
+.idea/
