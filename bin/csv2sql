@@ -1,3 +1,17 @@
+#!/usr/bin/env node
+
+/*!
+ * csv2sql - bin/csv2sql
+ * Copyright(c) 2014 tangyao <tangyao@taobao.com>
+ * MIT Licensed
+ */
+
+"use strict";
+
+/**
+ * Module dependencies.
+ */
+
 var fs = require('fs');
 var path = require('path');
 var util = require('util');
