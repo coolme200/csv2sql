@@ -1,6 +1,6 @@
 {
   "name": "csv2sql",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "csv2sql",
   "keywords": [
     "csv2sql"
@@ -20,7 +20,8 @@
   "preferGlobal": true,
   "dependencies": {
     "debug": "0.8.0",
-    "system": "0.1.0"
+    "system": "0.1.0",
+    "iconv-lite": "0.4.0-pre3"
   },
   "devDependencies": {
     "should": "*",

@@ -1,6 +1,12 @@
 csv2sql
 ======
 
+install
+======
+```
+  $ npm install csv2sql -g
+```
+
 help
 ======
 

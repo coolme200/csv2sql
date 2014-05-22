@@ -12,19 +12,24 @@
  * Module dependencies.
  */
 
+var iconv = require('iconv-lite');
+iconv.extendNodeEncodings();
 var fs = require('fs');
 var path = require('path');
 var util = require('util');
 var system = require('system');
 
-var args = Array.prototype.slice.call(system.args)
+var args = Array.prototype.slice.call(system.args);
 
 if (args.indexOf('-h') !== -1 || args.indexOf('help') !== -1) {
   console.log(
-    'Use csv2sql like:\n \
-      node csv2sql type=update input=root/a.csv charset=utf8 where=day_id,cat_name \n \
-      node csv2sql type=update input=root/a.csv output=root/a.sql table=a where=day_id,cat_name \n \
-    '
+    ' \n Windows System\'s default charset is `gbk`, other `utf8` \n ' +
+    '   you can also specify it with `chartset=gbk` \n\n ' +
+    ' Use csv2sql like: \n\n ' +
+    '   - update with `where` \n' +
+    '   $ csv2sql input=root/rpt_fenzu.csv where=day_id,cat_name \n\n ' +
+    '   - insert without `where` \n ' + 
+    '   $ csv2sql input=root/a.csv output=root/a.sql table=rpt_deal \n '
   );
   return;
 }
@@ -33,11 +38,8 @@ args = args.filter(function (a) {
   return a.indexOf('=') > 0;
 });
 
-
-
 var argList = ['type', 'input', 'output', 'table', 'where'];
 var typeList = ['insert', 'update'];
-
 var params = {};
 
 args.forEach(function (arg) {
@@ -45,11 +47,6 @@ args.forEach(function (arg) {
   var key = arr[0];
   params[arr[0]] = arr[1] || null;
 });
-
-var type = params.type;
-if (!type || typeList.indexOf(type) === -1) {
-  throw new Error('You must specify the correct `type` like `update` or `insert`!');
-}
 
 var input = params.input;
 if (!input || path.extname(input).toLowerCase() !== '.csv') {
@@ -66,15 +63,21 @@ if (!params.table) {
   params.table = path.basename(input, extname);
 }
 
-if (type === 'update') {
-  if (!params.where) {
-    throw new Error('You must specify the correct `where`!');
-  }
+var type = 'insert'
+if (params.where) {
+  type = 'update';
   params.where = params.where.split(',');
 }
 
-params.charset = params.charset || 'utf8';
-var str = fs.readFileSync(params.input, params.charset);
+params.charset = (params.charset || (process.platform === 'win32' ? 'gbk' : 'utf8')).toLowerCase();
+
+var str = fs.readFileSync(params.input);
+if (params.charset !== 'utf8' || params.charset !== 'utf-8') {
+  str = iconv.decode(str, params.charset);
+} else {
+  str = str.toString();
+}
+
 var arr = [];
 var columns = [];
 str.split(/[\r\n]/).forEach(function (line, idx) {
