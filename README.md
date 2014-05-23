@@ -1,6 +1,8 @@
 csv2sql
 ======
 
+非常简易的一个小工具，将csv文件转换为insert|update SQL文件。
+
 install
 ======
 ```

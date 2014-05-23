@@ -104,7 +104,7 @@ function renderUpdate(columns, line, params) {
   var where = [];
   var sql = 'update ' + params.table + ' set ';
   columns.forEach(function (col, idx) {
-    var valv = line[idx];
+    var valv = line[idx] || '';
     if (params.where.indexOf(col) !== -1) {
       where.push(col + '=\'' + valv + '\'');
       return;
@@ -120,7 +120,7 @@ function renderInsert(columns, line, params) {
   var update = [];
   var sql = 'insert into ' + params.table + '(' + columns.join(',') + ')';
   columns.forEach(function (col, idx) {
-    var valv = line[idx];
+    var valv = line[idx] || '';
     update.push(valv.length !== 0 ? ('\''+valv+'\'') : 'null'); 
   });
   sql += ' values(' + update.join(',') + ');';
